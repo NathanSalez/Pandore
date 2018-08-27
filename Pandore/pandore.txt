@@ -1,0 +1,89 @@
+But : créer une application sécurisée permettant le visionnage de ses mots de passe sur Linux.
+
+
+Fonctionnalités :
+- Lorsque l'utilisateur lance l'application une 1ere fois, on lui propose 2 choix :
+	- On lui donne un mot de passe compliqué dont les caractères sont dans l'ensemble ascii [32..126].
+	- IL tape son mot de passe lui même.
+
+Après avoir tapé le mot de passe, l'utilisateur aperçoit le mot de passe qu'il a créé. L'application redémarre juste après.
+
+- Lorsque l'application démarre et que le mot de passe a déjà été créée, l'application demande un mot de passe à l'utilisateur. 
+
+- Si ce le mot de passe entré est correct, alors l'application affiche un menu lui proposant les fonctionnalités suivantes :
+	- Lire l'ensemble des des combinaisons site/pseudo/mot de passe.
+	- Créer un fichier texte affichant toutes les combinaisons
+	- Ajouter une combinaison site/pseudo/mot de passe.
+	- Modifier une combinaison.
+	- Supprimer une combinaison.
+	- Changer le mot de passe de l'application.
+	- Quitter l'application.
+
+
+Solution technique utilisée :
+On utilise la classe CombinationList, contenant la liste des combinaisons ainsi que le mot de passe de l'application.
+L'instance créée sera stockée dans le fichier binaire data.pass dans le but de réduire sa lisibilité.
+
+Une combinaison est une map dont les clés sont définis par une chaine de caractère et les valeurs par la classe String ci-dessous.
+
+On utilise une classe String dérivée de std::string, en ajoutant les méthodes liées à la cryptologie
+Ces chaînes devront être cryptées avant d'être envoyées sur le fichier binaire, et décryptées après récupération de l'instance.  on
+
+Pour l'enregistrement des données dans le fichier binaire data.pass; il faudra prévoir un autre fichier, listant les tailles de chaque chaine
+de la CombinationList afin de les récupérer lors du chargement des données.
+
+Methode de décryptage/cryptage :
+Le cryptage revient à faire 
+	f(lettreDecryptée) = 126 - lettreDécryptée + 32 - cleChaine
+Le décryptage revient à faire 
+	f(lettreCryptée) = 126 - lettreDécryptée +32 - cleChaine
+Exemple : "b! X"
+'b' devient 126 - 98 + 32 - 4 = 56 ====> '8'
+'!' devient 126 - 33 + 32 - 4 = 121 ===> 'y'
+' ' devient 126 - 32 + 32 - 4 = 122 ===> 'z'
+
+Si le caractère est '\t' alors on le laisse tel quel. 
+cleChaine est un entier membre de la classe String, compris entre 0 et 20
+
+
+
+Arborescence utilisée :
+
+- dossier src :
+	- main.cpp => code source du programme principal
+	- mainKey.cpp => code source du programme permettant de récupérer le mot de passe de l'application.
+	- makefile => compile l'application
+
+- dossier libsrc :
+	- CombinationList.cpp => code source de la classe CombinationList
+	- String.cpp => ...
+	- makefile => compile les librairies
+
+- dossier include :
+	- CombinationList.h => fichier d'entête de la classe CombinationList
+	- String.h => ...
+- dossier lib :
+	- CombinationList.o => fichier objet de la classe CombinationList, créée après compilation du fichier CombinationList.cpp
+	- Combination.o => ...
+
+- dossier pandoreRelease :
+	- pandore.exe => exécutable de l'application.
+	- [pour le créateur] pandoreKey.exe => exécutable de l'application permettant d'extraire le mot de passe.
+	- dossier files :
+		- data.pass => fichier binaire contenant une instance de CombinationList.
+		- pandoreBox.txt => fichier texte contenant les combinaisons de l'utilisateur.
+
+- makefile : compilation des deux programmes.
+
+
+
+Côté utilisateur :
+Seul le dossier pandoreRelease sera disponible.
+S'il oublie le mot de passe, il peut toujours demander au créateur de l'application de le retrouver avec le programme pandoreKey.
+
+
+
+
+
+
+
