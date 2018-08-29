@@ -10,26 +10,26 @@ namespace pnd {
         std::vector<std::string> maskReturn;
         switch(typeC)
         {
-            case normal :
+            case combinationType::normal :
                 maskReturn.emplace_back("site");        // On utilise emplace_back car on crée l'objet directement dans le vector
                 maskReturn.emplace_back("pseudo");
                 break;
 
-            case email :
+            case combinationType::email :
                 maskReturn.emplace_back("mail");
                 maskReturn.emplace_back("adresse");
                 break;
 
-            case password :
+            case combinationType::password :
                 maskReturn.emplace_back("site");
                 break;
 
-            case mixed :
+            case combinationType::mixed :
                 maskReturn.emplace_back("site");
                 maskReturn.emplace_back("adresse");
                 break;
 
-            default : throw Exception(13,"std::vector<std::string> Combination::mask(combinationType)","Le type en argument n'existe pas.",combination);
+            default : throw Exception(13,"std::vector<std::string> Combination::mask(combinationType)","Le type en argument n'existe pas ou n'est pas configuré.",level::combination);
 
 
         }
@@ -38,6 +38,9 @@ namespace pnd {
     }
 
     bool Combination::validKeyType(combinationType type, std::string const& cle) {
+#ifdef __MODE_DEBUG__COMBINATION__
+        std::clog << "bool validKeyType(combinationType type, std::string const&) - cle = " << cle << " && type = " << static_cast<int>(type) << std::endl;
+#endif
         std::vector<std::string> mask = Combination::mask(type);
 
         auto finder = find(mask.begin(),mask.end(),cle);
@@ -45,7 +48,7 @@ namespace pnd {
     }
 
 
-    Combination::Combination(): type(normal) {}
+    Combination::Combination(): type(combinationType::quit) {}
 
     Combination::Combination(combinationType type) : type(type) {}
 
@@ -59,6 +62,26 @@ namespace pnd {
         return this->type;
     }
 
+    unsigned short Combination::getCombinationTypeValue() const
+    {
+        return static_cast<unsigned short>(this->type);
+    }
+
+    void Combination::setCombinationType(const combinationType& newType)
+    {
+#ifdef __MODE_DEBUG__COMBINATION__
+        std::clog << "void Combination::setCombinationType(const combinationType&) - newType = " << static_cast<int>(newType) << std::endl;
+#endif
+        if( newType < combinationType::end )
+        {
+            this->type = newType;
+        }
+        else
+        {
+            throw Exception(13,"void Combination::setCombinationType(const combinationType&)","Le type en argument n'existe pas.",level::combination);
+        }
+    }
+
     void Combination::addField( std::pair<std::string, pnd::String> const& information)
     {
         std::string cle ( information.first );
@@ -69,21 +92,21 @@ namespace pnd {
         else
         {
             throw Exception(11, "void addField(std::pair<pnd::String, pnd::String>&)",
-                                  "La clé en argument est incompatible avec le type de la combinaison.", combination);
+                                  "La clé en argument est incompatible avec le type de la combinaison.", level::combination);
         }
     }
 
     void Combination::setData( std::map<std::string, String, cmpLength> const& data)
     {
-        for(auto it = data.begin(); it != data.end(); it++)
+        for(auto& pair : data)
         {
-            if( validKeyType(type,it->first) )
+            if( validKeyType(type,pair.first) )
             {
-                this->data[it->first] = it->second;
+                this->data[pair.first] = pair.second;
             }
             else
             {
-                throw Exception(11,"setData( const std::map<std::string, String, cmpLength> )","La clé en argument est incompatible avec le type de la combinaison.",combination);
+                throw Exception(11,"void setData( const std::map<std::string, String, cmpLength> )","La clé en argument est incompatible avec le type de la combinaison.",level::combination);
             }
         }
     }
@@ -103,7 +126,7 @@ namespace pnd {
         }
         else
         {
-            throw Exception(12,"void removeField(std::string const&)","La clé n'a pas été trouvée dans la combinaison.",combination);
+            throw Exception(12,"void removeField(std::string const&)","La clé n'a pas été trouvée dans la combinaison.",level::combination);
         }
 
     }
@@ -117,14 +140,14 @@ namespace pnd {
         }
         else
         {
-            throw Exception(12,"void modifyField(std::string const&, pnd::String const&)"," La clé n'a pas été trouvée dans la combinaison.",combination);
+            throw Exception(12,"void modifyField(std::string const&, pnd::String const&)"," La clé n'a pas été trouvée dans la combinaison.",level::combination);
         }
     }
 
     std::ostream &operator<<(std::ostream &stream, Combination const &thisOne) {
-        for(auto it=thisOne.data.begin(); it != thisOne.data.end(); it++)
+        for(auto& pair : thisOne.data )
         {
-            stream << it->first << " : \"" << it->second << "\"\t";
+            stream << pair.first << " : \"" << pair.second << "\"\t";
         }
         return stream;
     }

@@ -16,17 +16,17 @@
   *     12 - "La clé n'a pas été trouvée dans la combinaison."
   *     13 - "Le type en argument n'existe pas."
   *
-  * File.cpp
-  *     21 - "Problème de manipulation du fichier."
-  *     22 - "Valeur de type erronée dans le fichier."
-  *     23 - "Valeur de clé erronée dans le fichier."
-  *     24 - "Valeur de size erronée dans le fichier."
-  *     25 - "Chaine modifiée dans le fichier."
-  *
   * CombinationList.cpp
-  *     31 - "Le fichier de données n'a pas pu être ouvert."
-  *     32 - "Mot de passe vide."
-  *     33 - "Index situé en dehors de l'intervalle prévue."
+  *     21 - "Le fichier de données n'a pas pu être ouvert."
+  *     22 - "Mot de passe vide."
+  *     23 - "Index situé en dehors de l'intervalle prévue."
+  *
+  * File.cpp
+  *     31 - "Problème de manipulation du fichier."
+  *     32 - "Valeur de type erronée dans le fichier."
+  *     33 - "Valeur de clé erronée dans le fichier."
+  *     34 - "Valeur de size erronée dans le fichier."
+  *     35 - "Chaine modifiée dans le fichier."
   *
   * main.cpp
   *     41 - "Nombre maximum de tentatives atteint."
@@ -48,7 +48,7 @@
 
 namespace pnd {
 
-    enum level {string, combination, file , combinationList, main };
+    enum class level {string, combination, file , combinationList, main };
 
     class Exception : public std::exception
             {

@@ -47,11 +47,11 @@ namespace pnd {
         {
             if( key > cst::maxKey)
             {
-                throw Exception(1,"String(std::string, unsigned short)","La clé entrée est trop grande.",string);
+                throw Exception(1,"String(std::string, unsigned short)","La clé entrée est trop grande.",level::string);
             }
             else
             {
-                throw Exception(2,"String(std::string, unsigned short)","La clé entrée est trop petite.",string);
+                throw Exception(2,"String(std::string, unsigned short)","La clé entrée est trop petite.",level::string);
             }
         }
     }
@@ -91,11 +91,11 @@ namespace pnd {
         else {
             if( key > cst::maxKey)
             {
-                throw Exception(1,"setKey(unsigned short)","La clé entrée est trop grande.",string);
+                throw Exception(1,"setKey(unsigned short)","La clé entrée est trop grande.",level::string);
             }
             else
             {
-                throw Exception(2,"setKey(unsigned short)","La clé entrée est trop petite.",string);
+                throw Exception(2,"setKey(unsigned short)","La clé entrée est trop petite.",level::string);
             }
         }
     }

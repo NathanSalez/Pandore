@@ -13,18 +13,18 @@
 
 //#define __MODE_DEBUG__STRING__
 
-namespace cst {     // cst pour constantes
-    //Les clés pour chiffrer/déchiffrer les chaines sont dans l'intervalle [10,20]
-    const unsigned short maxKey = 20;
-    const unsigned short minKey = 10;
-
-    // Tous les caractères pouvant être écrits facilement au clavier sont dans l'intervalle [32,126]
-            // sauf le caractère de tabulation ( = 9)
-    const unsigned char maxIntervalLetter = 126;
-    const unsigned char minIntervalLetter = 32;
-}
-
 namespace pnd {
+
+    namespace cst {     // cst pour constantes
+        //Les clés pour chiffrer/déchiffrer les chaines sont dans l'intervalle [10,20]
+        const unsigned short maxKey = 20;
+        const unsigned short minKey = 10;
+
+        // Tous les caractères pouvant être écrits facilement au clavier sont dans l'intervalle [32,126]
+        // sauf le caractère de tabulation ( = 9)
+        const unsigned char maxIntervalLetter = 126;
+        const unsigned char minIntervalLetter = 32;
+    }
 
     class String {
     public:

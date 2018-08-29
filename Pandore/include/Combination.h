@@ -20,14 +20,14 @@
 
 //#define __MODE_DEBUG__COMBINATION__
 
-namespace cst
-{
-    const unsigned short maxCombinationTypes = 4;
-}
-
 namespace pnd
 {
-    enum combinationType {normal,email,password,mixed};
+    namespace cst
+    {
+        const unsigned short maxCombinationTypes = 4;
+    }
+
+    enum class combinationType {quit,normal,email,password,mixed,end};
 
     class cmpLength
     {
@@ -48,6 +48,8 @@ class Combination
         ~Combination() = default;
 
         combinationType getCombinationType() const;
+        unsigned short getCombinationTypeValue() const;
+        void setCombinationType(const combinationType& newType);
 
         void setData(std::map<std::string, String, cmpLength> const&);
         std::map<std::string, String, cmpLength> getData() const;

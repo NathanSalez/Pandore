@@ -1,4 +1,4 @@
-Bienvenue sur l'application Pandore - version 1.2
+Bienvenue sur l'application Pandore - version 1.2.1
 
 A l'aide de cette application, vous pouvez sauvegarder vos mots de passe en sécurité.
 Lors du premier lancement normal de l'application, vous devez choisir un mot de passe maître qui vous permet d'accéder aux données sensibles.
@@ -47,5 +47,14 @@ Version 1.2  13/08/18 :
 Version 1.2.1 14/08/18 :
 - Correction du bug lié à la génération manuelle du mot de passe.
 - Sécurisation de la procédure de chargement des fichiers.
+
+Version 1.3 29/08/18 :
+- Ajout du mode <mixed> pour les combinaisons (mixed = {site,adresse mail, mot de passe} )
+- Fonctionnalité de recherche de combinaisons en fonction d'un champ ajouté.
+- Réécriture partielle du code, pour l'optimiser :
+    - Les return de conteneur, impliquant une copie, ont été modifiées pour qu'elles renvoient une référence.
+    - L'inclusion des fichiers a été changée, File.h inclut CombinationList.h
+    - Les boucle for, n'obligeant pas la présence de compteur, identifiant, utilise la forme moderne (issue de C++11)
+    - Changement des enum : passage au class enum pour les combinationType et les level (facilite le static_cast)
 
 

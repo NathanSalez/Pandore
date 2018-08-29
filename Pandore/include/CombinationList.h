@@ -9,7 +9,7 @@
 
 #define __COMBINATIONLIST_INCLUDED__
 
-#include "File.h"
+#include "Combination.h"
 
 //#define __MODE_DEBUG__COMBINATIONLIST__
 
@@ -21,7 +21,7 @@ namespace pnd
         CombinationList();
         explicit CombinationList(String password);      // A utiliser au 1er lancement de l'application
         explicit CombinationList(const std::string& fileNameData);    //A utiliser la plupart du temps
-        ~CombinationList();     // dans ce destructeur, on sauvegarde tous les données
+        ~CombinationList()=default;     // dans ce destructeur, on sauvegarde tous les données
 
 
         void addCombination(Combination const &);
@@ -33,11 +33,12 @@ namespace pnd
 
 
         void setPassword(String &password);
-        pnd::String getPassword();
-        std::vector<Combination> getDataList();
+        pnd::String getPassword() const;
+
+        std::vector<Combination> getDataList() const;
 
         void setPathDataFile(std::string const&);
-        std::string getPathDataFile();
+        std::string getPathDataFile() const;
 
         friend std::ostream &operator<<(std::ostream &stream, CombinationList const &thisOne);
 

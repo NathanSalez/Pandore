@@ -1,7 +1,7 @@
 #include "../include/Exception.h"
 
 namespace pnd {
-    Exception::Exception(int numero, std::string const& nomFonction, std::string const &phrase, level niveau = main)
+    Exception::Exception(int numero, std::string const& nomFonction, std::string const &phrase, level niveau)
             : number(numero), niveau(niveau)
     {
         std::ostringstream flux;   //Un flux permettant d'écrire dans une chaîne
